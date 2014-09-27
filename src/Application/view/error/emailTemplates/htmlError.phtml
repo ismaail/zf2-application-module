@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>An error occurred</title>
+    <style>
+        body { font-family: "sans-serif"; font-size: 14px;}
+        .errors div, .errors pre, .params {
+            font-family: courier;
+            margin-top: 3px;
+            margin-bottom: 10px;
+            margin-top: 3px;
+            border: 1px solid #000;
+            margin-left: 40px;
+            padding: 3px 3px 3px 10px;
+            border-radius: 10px;
+            background-color: #202020;
+            color: #FFF;
+        }
+        .errors pre { overflow-x: scroll; color: #87CEEB;}
+        .line {color: #CD5C5C;}
+        .params {}
+    </style>
+</head>
+<body>
+    <h1>An error occurred</h1>
+    <hr>
+
+    <h3>Server</h3>
+    <ul>
+        <li><b>Remote IP Address:</b> <?php echo $remoteIP; ?></li>
+        <li><b>User-Agent:</b> <?php echo $userAgent; ?></li>
+        <li><b>Server time:</b> <?php echo date("Y-m-d H:i:s e"); ?></li>
+    </ul>
+
+    <h3>Request</h3>
+    <ul>
+        <li><b>Host:</b> <?= $requestHost; ?></li>
+        <li><b>Uri:</b> <?= $requestUri; ?></li>
+        <?php if($referer): ?><li><b>Referer:</b> <?= $referer; ?></li><?php endif; ?>
+        <?php if($requestType): ?><li><b>RequestType:</b> <?= $requestType; ?></li><?php endif; ?>
+        <?php if(! empty($params['query']) || ! empty($params['post'])): ?>
+        <li>
+            <b>Params:</b>
+                <?php foreach($params as $key => $value): ?>
+                    <?php if(! empty($value)): ?>
+                        <pre class="params"><?= $key; ?> => <?php print_r($value); ?></pre>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+        </li>
+        <?php endif; ?>
+    </ul>
+
+    <h2>Additional information:</h2>
+
+    <?php foreach ($exceptions as $exception): ?>
+        <h3>- <?= $exception['class']; ?></h3>
+        <ul class="errors">
+            <li>
+                File:
+                <div><?= $exception['file']; ?>:<span class="line"><?= $exception['line']; ?></span></div>
+            </li>
+            <li>
+                Message (code: <?= $exception['code']; ?>):
+                <div><?= $exception['message']; ?></div>
+            </li>
+            <li>
+                Trace:
+                <pre><?= $exception['trace']; ?></pre>
+            </li>
+        </ul>
+    <?php endforeach ?>
+</body>
+</html>

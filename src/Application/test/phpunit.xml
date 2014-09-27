@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit bootstrap="Bootstrap.php" colors="true">
+    <testsuites>
+        <testsuite name="Application module">
+            <directory>./ApplicationTest</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">../</directory>
+            <exclude>
+                <file>../autoload_classmap.php</file>
+                <directory suffix=".php">../test</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+    <logging>
+        <log type="coverage-html" target="../../../data/test/Application/report" charset="UTF-8" yui="true" highlight="false" lowUpperBound="35" highLowerBound="70"/>
+        <log type="coverage-clover" target="../../../data/test/Application/log/coverage.xml"/>
+        <log type="json" target="../../../data/test/Application/log/logfile.json"/>
+        <log type="tap" target="../../../data/test/Application/log/logfile.tap"/>
+        <log type="junit" target="../../../data/test/Application/log/logfile.xml" logIncompleteSkipped="false"/>
+        <log type="testdox-html" target="../../../data/test/Application/log/testdox.html"/>
+        <log type="testdox-text" target="../../../data/test/Application/log/testdox.txt"/>
+    </logging>
+</phpunit>

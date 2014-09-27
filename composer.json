@@ -1,0 +1,25 @@
+{
+    "name": "yamcsha/application",
+	"description": "Zend Framework 2 module",
+	"keywords": ["zf2", "zend"],
+	"license": "MIT",
+	"type": "library",
+    "version":"v0.0",
+	"homepage": "http://www.ismaail.com",
+	"authors": [
+		{
+			"name": "ismaail",
+			"email": "contact@ismaail.com"
+		}
+	],
+	"require": {
+		"php": ">=5.3.3",
+		"zendframework/zendframework": "2.*",
+		"doctrine/doctrine-orm-module": "0.*"
+	},
+    "autoload": {
+        "psr-0": {
+            "Application\\": "src/"
+        }
+    }
+}

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <?= $this->headTitle('404 Error - ismaail.com Blog'); ?>
+    <style type="text/css">
+        body {
+            font-family: sans-serif;
+        }
+
+        #wrapper {
+            width: 500px;
+            height: 485px;
+            margin: 0 auto;
+            background: url("/images/404.png") 0 0 no-repeat;
+        }
+        h3 {
+            margin: 0;
+            padding: 305px 0 0;
+            color: #FFF;
+            text-align: center;
+            text-shadow: 1px 1px 2px #CCCCCC;
+            text-transform: uppercase;
+        }
+        a {
+            text-decoration: none;
+        }
+        a h4 {
+            color: #FFF;
+            padding: 10px 0 0;
+            text-align: center;
+            text-shadow: 1px 1px 2px #CCCCCC;
+        }
+        a h4:hover {
+            color: #CCC;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <h3>Page not found</h3>
+        <a href="" onclick="history.back(-1); return false;">
+            <h4>Back</h4>
+        </a>
+    </div>
+</body>
+</html>
