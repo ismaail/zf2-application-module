@@ -22,6 +22,26 @@ class Module
         /*
          Errors handling
          */
+        $eventManager->attach(
+            MvcEvent::EVENT_DISPATCH,
+            function (MvcEvent $event) {
+                if (in_array(substr($event->getResponse()->getStatusCode(), 0, 1), ['4', '5'])) {
+                    // Change layout
+                    $config = $event->getApplication()->getServiceManager()->get('config');
+                    $event->getViewModel()->setTemplate($config['error_handler']['error_layout']);
+                }
+            }
+        );
+
+        $eventManager->attach(
+            MvcEvent::EVENT_DISPATCH_ERROR,
+            function (MvcEvent $event) {
+                // Change layout
+                $config = $event->getApplication()->getServiceManager()->get('config');
+                $event->getViewModel()->setTemplate($config['error_handler']['error_layout']);
+            }
+        );
+
         if ('production' === APPLICATION_ENV) {
             $eventManager->attach(MvcEvent::EVENT_DISPATCH_ERROR, function ($e) use ($sm) {
 

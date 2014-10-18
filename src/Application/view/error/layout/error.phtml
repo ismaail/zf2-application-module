@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <?php
+        $this->headTitle()->setSeparator(' / ');
+        echo $this->headTitle();
+    ?>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="icon" type="image/png" href="<?= $this->basePath(); ?>/images/favicon.ico">
+    <style>
+        .error-page {
+            font-family: arial;
+            color: #333;
+        }
+
+        .error-page h1 {
+            color: #F90020;
+            font-weight: normal;
+        }
+
+        .error-page h2 {
+            font-size: 26px;
+            font-weight: normal;
+        }
+
+        .error-page h3 {
+            font-size: 20px;
+            color: #830009;
+        }
+
+        .error-page dt {
+            margin-top: 10px;
+        }
+
+        .error-page pre {
+            background-color: #FFFFCE;
+            color: #000;
+            border: none;
+            border-radius: 0;
+            width: 100%;
+            margin: 0 6px;
+        }
+    </style>
+</head>
+<body>
+    <?php echo $this->content; ?>
+</body>
+</html>
