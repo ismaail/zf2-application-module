@@ -52,11 +52,9 @@ return array(
         'template_map' => array(
             //'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
             //'application/index/index' => __DIR__ . '/../view/application/index/index.phtml',
+            'layout/error'            => __DIR__ . '/../view/layout/error.phtml',
             'error/404'               => __DIR__ . '/../view/error/404.phtml',
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
-        ),
-        'template_path_stack' => array(
-            __DIR__ . '/../view',
         ),
     ),
     'view_helpers' => array(
