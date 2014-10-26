@@ -4,6 +4,7 @@
 	"keywords": ["zf2", "zend"],
 	"license": "MIT",
 	"type": "library",
+	"version":"v1.0.4",
 	"homepage": "http://www.ismaail.com",
 	"authors": [
 		{
