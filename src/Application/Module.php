@@ -34,7 +34,7 @@ class Module
         );
 
         $eventManager->attach(
-            MvcEvent::EVENT_DISPATCH_ERROR,
+            MvcEvent::EVENT_RENDER_ERROR,
             function (MvcEvent $event) {
                 // Change layout
                 $config = $event->getApplication()->getServiceManager()->get('config');
