@@ -8,83 +8,29 @@ use Zend\Mail\Transport;
 use Zend\Cache;
 use Application\Service;
 
+/**
+ * Class Module
+ * @package Application
+ */
 class Module
 {
-    public function onBootstrap(MvcEvent $e)
+    public function onBootstrap(MvcEvent $event)
     {
         //$e->getApplication()->getServiceManager()->get('translator');
-        $eventManager        = $e->getApplication()->getEventManager();
+        $eventManager        = $event->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
 
-        $sm = $e->getApplication()->getServiceManager();
-
         /*
-         Errors handling
+         Change layout for Error
          */
-        $eventManager->attach(
-            MvcEvent::EVENT_DISPATCH,
-            function (MvcEvent $event) {
-                if (in_array(substr($event->getResponse()->getStatusCode(), 0, 1), ['4', '5'])) {
-                    // Change layout
-                    $config = $event->getApplication()->getServiceManager()->get('config');
-                    $event->getViewModel()->setTemplate($config['error_handler']['error_layout']);
-                }
-            }
-        );
-
-        $eventManager->attach(
-            MvcEvent::EVENT_RENDER_ERROR,
-            function (MvcEvent $event) {
-                // Change layout
-                $config = $event->getApplication()->getServiceManager()->get('config');
-                $event->getViewModel()->setTemplate($config['error_handler']['error_layout']);
-            }
-        );
-
-        if ('production' === APPLICATION_ENV) {
-            $eventManager->attach(MvcEvent::EVENT_DISPATCH_ERROR, function ($e) use ($sm) {
-
-                $exception = $e->getParam('exception');
-
-                // disable layout
-                $result = $e->getResult();
-                $result->setTerminal(true);
-
-                $errorHandler = $sm->get('ErrorHandler');
-
-                if ($exception) {
-                    // Execution error
-                    $errorHandler->run($exception, $e->getRequest());
-
-                } else {
-                    // 404 error
-                    //TODO: send tempalte 404.phtml by email
-
-                    $result->setTemplate('error/production_404.phtml');
-                }
-            });
-        }
+        $eventManager->attach(MvcEvent::EVENT_DISPATCH_ERROR, [$this, 'changeErrorLayout']);
 
         /*
          FirehpProfiler - Doctrine2 queries
          */
         if ('production' !== APPLICATION_ENV) {
-            $serviceManager = $e->getApplication()->getServiceManager();
-
-            // set firephp logger to entitymanager
-            $serviceManager->get('doctrine.entitymanager.orm_default')
-                ->getConfiguration()->setSQLLogger($serviceManager->get('FirePhpLogger'));
-
-            // fire logger at finish event
-            $eventManager->attach(
-                MvcEvent::EVENT_FINISH,
-                function ($e) use ($serviceManager) {
-                    $profiler = $serviceManager->get('FirePhpLogger');
-                    $profiler->showTable();
-                },
-                100
-            );
+            $this->enableFirePhpProfiler($event);
         }
     }
 
@@ -104,34 +50,37 @@ class Module
         );
     }
 
-    public function getServiceConfig()
+    /**
+     * Change layout for errors
+     *
+     * @param MvcEvent $event
+     */
+    public function changeErrorLayout(MvcEvent $event)
     {
-        return array(
-            'factories' => array(
-                'mail_transport' => function ($sm) {
-                    $config = $sm->get('Config');
-                    $transport = new Transport\Smtp();
-                    $transport->setOptions(new Transport\SmtpOptions($config['mail']['transport']['options']));
+        $config = $event->getApplication()->getServiceManager()->get('config');
+        $event->getViewModel()->setTemplate($config['error_handler']['error_layout']);
+    }
 
-                    return $transport;
-                },
-                'Zend\Authentication\AuthenticationService' => function ($sm) {
-                    return $sm->get('doctrine.authenticationservice.orm_default');
-                },
-                'ErrorHandler' => function ($sm) {
-                    $config = $sm->get('config');
-                    $di     = new Di();
-                    $di->instanceManager()->setParameters('Application\Controller\Plugin\ErrorHandler', array(
-                        'mailTransport' => $sm->get('mail_transport'),
-                        'mailConfig'    => $config['mail']['debug'],
-                    ));
+    /**
+     * @param MvcEvent $event
+     */
+    public function enableFirePhpProfiler(MvcEvent $event)
+    {
+        $serviceManager = $event->getApplication()->getServiceManager();
+        $eventManager   = $event->getApplication()->getEventManager();
 
-                    return $twitter = $di->get('Application\Controller\Plugin\ErrorHandler');
-                },
-            ),
-            'invokables' => array(
-                'FirePhpLogger' => 'Application\Logger\Doctrine\FirePhp',
-            ),
+        // Attach FirePhp logger to the EntityManager
+        $serviceManager->get('doctrine.entitymanager.orm_default')
+            ->getConfiguration()->setSQLLogger($serviceManager->get('FirePhpLogger'));
+
+        // Show FirePhp table logger at finish event
+        $eventManager->attach(
+            MvcEvent::EVENT_FINISH,
+            function () use ($serviceManager) {
+                $profiler = $serviceManager->get('FirePhpLogger');
+                $profiler->showTable();
+            },
+            100
         );
     }
 }

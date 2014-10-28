@@ -19,8 +19,8 @@ return array(
 
     'service_manager' => array(
         'invokables' => array(
-            //'translator' => 'Zend\I18n\Translator\TranslatorServiceFactory',
             'MailService' => 'Application\Service\Mail\Mail',
+            'FirePhpLogger' => 'Application\Logger\Doctrine\FirePhp',
         ),
         'factories' => array(
             'translation/translation' => 'Application\Translation\Factory\TranslationFactory',
