@@ -96,7 +96,7 @@ class Adapter implements AdapterInterface
     {
         $cacheKey = null;
 
-        if ($this->cacheKey) {
+        if (null !== $this->cacheKey) {
             $cacheKey = sprintf($this->cacheKey . '_%d_%d', $offset, $itemCountPerPage);
         }
 
@@ -111,8 +111,11 @@ class Adapter implements AdapterInterface
 
         $this->items = $this->executeResultQuery($offset, $itemCountPerPage);
 
-        if ($this->cacheKey && $this->cache) {
+        if ($cacheKey && $this->cache) {
             $this->cache->setItem($cacheKey, $this->items);
+            if (null !== $this->cacheTags) {
+                $this->cache->setTags($cacheKey, $this->cacheTags);
+            }
         }
 
         return $this->items;
@@ -177,6 +180,9 @@ class Adapter implements AdapterInterface
             // Save to cache
             if ($this->cacheKey && $this->cache) {
                 $this->cache->setItem($this->cacheKey, $this->count);
+                if (null !== $this->cacheTags) {
+                    $this->cache->setTags($this->cacheKey, $this->cacheTags);
+                }
             }
         }
 
