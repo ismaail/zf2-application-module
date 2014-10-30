@@ -63,6 +63,7 @@ return array(
             'filterLink' => 'Application\ViewHelper\FilterLink',
             'lang'       => 'Application\ViewHelper\Lang',
             'errorMessage' => 'Application\ViewHelper\ErrorMessage',
+            'stripTags'    => 'Application\ViewHelper\StripTags',
         ),
     ),
 
