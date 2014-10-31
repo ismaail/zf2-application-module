@@ -49,6 +49,10 @@ class ErrorMessage extends AbstractHelper implements ServiceLocatorAwareInterfac
     protected function translate($word)
     {
         if (! $this->translator) {
+            if (! $this->getServiceLocator()->getServiceLocator()->has('translator')) {
+                return $word;
+            }
+
             $this->translator = $this->getServiceLocator()->getServiceLocator()->get('translator');
         }
 
@@ -77,7 +81,7 @@ class ErrorMessage extends AbstractHelper implements ServiceLocatorAwareInterfac
         $list = join('</li><li>', $list);
 
         $html = <<<HTML
-<div class="alert col-md-8 alert-error">
+<div class="alert col-md-8 alert-danger">
     <ul class="list-unstyled">
         <li><strong>{$this->translate('Error')}</strong></li>
     </ul>
