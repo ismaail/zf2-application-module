@@ -55,6 +55,7 @@ return array(
             'layout/error'            => __DIR__ . '/../view/layout/error.phtml',
             'error/404'               => __DIR__ . '/../view/error/404.phtml',
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
+            'template/email/error/html' => __DIR__ . '/../view/templates/email/error/html_message.phtml',
         ),
     ),
     'view_helpers' => array(

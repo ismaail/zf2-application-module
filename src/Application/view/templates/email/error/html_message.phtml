@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>An error occurred</title>
+    <style>
+        body { font-family: "sans-serif"; font-size: 14px;}
+        .errors div, .errors pre, .params {
+            font-family: courier;
+            margin-top: 3px;
+            margin-bottom: 10px;
+            margin-top: 3px;
+            padding: 3px 3px 3px 10px;
+            background-color: #FFFFCE;
+        }
+        .errors pre { overflow-x: scroll; color: #87CEEB;}
+        .line {color: #CD5C5C;}
+
+        .error-page {
+            font-family: arial;
+            color: #333;
+        }
+
+        .error-page h1 {
+            color: #F90020;
+            font-weight: normal;
+        }
+
+        .error-page h2 {
+            font-size: 26px;
+            font-weight: normal;
+        }
+
+        .error-page h3 {
+            font-size: 20px;
+            color: #830009;
+        }
+
+        .error-page dt {
+            margin-top: 10px;
+        }
+
+        .error-page pre {
+            background-color: #FFFFCE;
+            color: #000;
+            border: none;
+            border-radius: 0;
+            width: 100%;
+            margin: 0 6px;
+        }
+
+        .error-page li {
+            margin-bottom: 3px;;
+        }
+    </style>
+</head>
+<body class="error-page">
+    <h1>An error occurred</h1>
+    <hr>
+
+    <h3>Server</h3>
+    <ul>
+        <li><b>Remote IP Address:</b> <?= $this->escapeHtml($request['remoteIP']); ?></li>
+        <li><b>User-Agent:</b> <?= $this->escapeHtml($request['userAgent']); ?></li>
+        <li><b>Server time:</b> <?= $this->escapeHtml(date('Y-m-d H:i:s e')); ?></li>
+    </ul>
+
+    <h3>Request</h3>
+    <ul>
+        <li><b>Host:</b> <?= $this->escapeHtml($request['host']); ?></li>
+        <li><b>Uri:</b> <?= $this->escapeHtml($request['uri']); ?></li>
+        <?php if ($request['referer']): ?><li><b>Referer:</b> <?= $this->escapeHtml($request['referer']); ?></li><?php endif; ?>
+        <?php if ($request['type']): ?><li><b>RequestType:</b> <?= $this->escapeHtml($request['type']); ?></li><?php endif; ?>
+        <?php if (! empty($request['params']['query']) || ! empty($request['params']['post'])): ?>
+        <li>
+            <b>Params:</b>
+            <?php foreach($request['params'] as $key => $value): ?>
+                <?php if(! empty($value)): ?>
+                    <pre class="params"><?= $key; ?> => <?= $this->escapeHtml(print_r($value, true)); ?></pre>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </li>
+        <?php endif; ?>
+    </ul>
+
+    <h2>Additional information:</h2>
+
+    <?php foreach ($exceptions as $exception): ?>
+        <h3><?= $this->escapeHtml($exception['class']); ?></h3>
+        <ul class="errors">
+            <li>
+                File:
+                <div><?= $this->escapeHtml($exception['file']); ?>:<span class=""><?= $this->escapeHtml($exception['line']); ?></span></div>
+            </li>
+            <li>
+                Message (code: <?= $this->escapeHtml($exception['code']); ?>):
+                <div><?= $this->escapeHtml($exception['message']); ?></div>
+            </li>
+            <li>
+                Trace:
+                <pre><?= $this->escapeHtml($exception['trace']); ?></pre>
+            </li>
+        </ul>
+    <?php endforeach ?>
+</body>
+</html>
