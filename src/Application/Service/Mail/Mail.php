@@ -90,11 +90,19 @@ class Mail
     /**
      * Set templates
      *
-     * @param $templates
+     * @param array $templates
      */
     public function setTemplates($templates)
     {
         $this->templates = $templates;
+    }
+
+    /**
+     * Disable sending the email
+     */
+    public function disableSend()
+    {
+        $this->sendEnabled = false;
     }
 
     /**

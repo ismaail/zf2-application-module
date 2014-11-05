@@ -1,0 +1,23 @@
+<?php
+
+return array(
+    'mail' => array(
+        'transport' => array(
+            'options' => array(
+                'host'              => 'smtp.googlemail.com',
+                'port'              => 465,
+                'connection_class'  => 'login',
+                'connection_config' => array(
+                    'username' => '@gmail.com',
+                    'password' => '',
+                    'ssl'      => 'ssl',
+                ),
+            ),
+        ),
+        'debug' => array(
+            'to'      => '',
+            'from'    => '',
+            'subject' => 'Debug',
+        ),
+    ),
+);
