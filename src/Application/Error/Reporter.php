@@ -64,7 +64,7 @@ class Reporter
         $response = array(
             // Server
             'userAgent' => $request->getHeaders()->get('User-Agent')->getFieldValue(),
-            'remoteIP'  => $request->getServer()->get('SERVER_ADDR'),
+            'remoteIP'  => $request->getServer()->get('REMOTE_ADDR'),
             'referer'   => (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : null,
 
             // Request
