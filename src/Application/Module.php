@@ -36,7 +36,7 @@ class Module
         /*
          FirehpProfiler - Doctrine2 queries
          */
-        if ('production' !== APPLICATION_ENV) {
+        if ('development' === APPLICATION_ENV) {
             $this->enableFirePhpProfiler($event);
         }
     }
