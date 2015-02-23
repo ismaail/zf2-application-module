@@ -16,12 +16,14 @@ use RuntimeException;
 abstract class AbstractModel
 {
     /**
-     * Doctrine 2 EntityManager
-     *
+     * @var \Zend\ServiceManager\ServiceManager
+     */
+    protected $serviceManager;
+
+    /**
      * @var \Doctrine\ORM\EntityManager
      */
-    protected $em;
-
+    protected $entityManager;
     /**
      * @var string
      */
@@ -40,19 +42,17 @@ abstract class AbstractModel
     protected $cacheEnabled = true;
 
     /**
-     * __construct
-     *
-     * @param EntityManager $em             Doctrine 2 EntityManager
+     * @param \Zend\ServiceManager\ServiceManager $serviceManager
      *
      * @throws \Exception     If entity name not defined
      */
-    public function __construct(EntityManager $em)
+    public function __construct($serviceManager)
     {
         if (! $this->entityName) {
             throw new \Exception(sprintf('entity name no defined for class %s', get_called_class()), 1);
         }
 
-        $this->em = $em;
+        $this->serviceManager = $serviceManager;
     }
 
     /**
@@ -73,6 +73,26 @@ abstract class AbstractModel
     public function getEntityName()
     {
         return $this->entityName;
+    }
+
+    /**
+     * @return \Zend\ServiceManager\ServiceManager
+     */
+    public function getServiceManager()
+    {
+        return $this->serviceManager;
+    }
+
+    /**
+     * @return \Doctrine\ORM\EntityManager
+     */
+    public function getEntityManager()
+    {
+        if (null === $this->entityManager) {
+            $this->entityManager = $this->getServiceManager()->get('doctrine.entitymanager.orm_default');
+        }
+
+        return $this->entityManager;
     }
 
     /**
