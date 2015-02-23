@@ -102,7 +102,7 @@ abstract class AbstractModel
      */
     public function findAll()
     {
-        return $this->em->getRepository($this->entityName)->findAll();
+        return $this->getEntityManager()->getRepository($this->entityName)->findAll();
     }
 
     /**
@@ -115,7 +115,7 @@ abstract class AbstractModel
      */
     public function findOneById($id, $stripped = false)
     {
-        $qb = $this->em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('e')
            ->from($this->getEntityName(), 'e')
            ->where('e.id = :id')
@@ -134,10 +134,10 @@ abstract class AbstractModel
      */
     public function rollbackTransaction()
     {
-        if (null !== $this->em
-            && $this->em->getConnection()->isTransactionActive()
+        if (null !== $this->getEntityManager()
+            && $this->getEntityManager()->getConnection()->isTransactionActive()
         ) {
-            $this->em->rollback();
+            $this->getEntityManager()->rollback();
         }
     }
 
