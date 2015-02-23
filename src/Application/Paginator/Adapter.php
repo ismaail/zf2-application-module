@@ -2,7 +2,6 @@
 namespace Application\Paginator;
 
 use Zend\Paginator\Adapter\AdapterInterface;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\NoResultException;
@@ -19,7 +18,7 @@ class Adapter implements AdapterInterface
     protected $items = [];
 
     /**
-     * @var QueryBuilder
+     * @var mixed
      */
     protected $queryBuilder;
 
@@ -44,12 +43,18 @@ class Adapter implements AdapterInterface
     protected $count;
 
     /**
-     * @param QueryBuilder $queryBuilder
+     * @var \Zend\ServiceManager\ServiceManager
+     */
+    protected $serviceManager;
+
+    /**
+     * @param mixed $queryBuilder
      * @param array $options
      */
-    public function __construct(QueryBuilder $queryBuilder, $options = [])
+    public function __construct($queryBuilder, $serviceManager, $options = [])
     {
-        $this->queryBuilder = $queryBuilder;
+        $this->queryBuilder   = $queryBuilder;
+        $this->serviceManager = $serviceManager;
 
         if ($options) {
             foreach ($options as $property => $value) {
@@ -155,6 +160,9 @@ class Adapter implements AdapterInterface
                     return $this->count;
                 }
             }
+
+            // Get doctrine querybuilder
+            $this->queryBuilder = $this->queryBuilder->process($this->serviceManager);
 
             $countQuery = $this->cloneQuery($this->queryBuilder->getQuery());
 
