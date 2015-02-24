@@ -15,6 +15,7 @@ class QueryBuilder
         'where'     => [],
         'andWhere'  => [],
         'parameter' => [],
+        'groupBy'   => [],
     ];
 
     /**
@@ -56,6 +57,12 @@ class QueryBuilder
         if (! empty($this->data['parameter'])) {
             foreach ($this->data['parameter'] as $parameter) {
                 $qb->setParameter($parameter[0], $parameter[1]);
+            }
+        }
+
+        if (! empty($this->data['groupBy'])) {
+            foreach ($this->data['groupBy'] as $value) {
+                $qb->groupBy($value);
             }
         }
 
@@ -146,6 +153,18 @@ class QueryBuilder
     public function setParameter($name, $value)
     {
         array_push($this->data['parameter'], [$name, $value]);
+
+        return $this;
+    }
+
+    /**
+     * @param  string $value
+     *
+     * @return QueryBuilder
+     */
+    public function groupBy($value)
+    {
+        array_push($this->data['groupBy'], $value);
 
         return $this;
     }
