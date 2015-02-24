@@ -100,18 +100,24 @@ class Module
         $serviceManager = $event->getApplication()->getServiceManager();
         $eventManager   = $event->getApplication()->getEventManager();
 
-        // Attach FirePhp logger to the EntityManager
-        $serviceManager->get('doctrine.entitymanager.orm_default')
-            ->getConfiguration()->setSQLLogger($serviceManager->get('FirePhpLogger'));
+        try {
+            // Attach FirePhp logger to the EntityManager
+            $serviceManager->get('doctrine.entitymanager.orm_default')
+                ->getConfiguration()->setSQLLogger($serviceManager->get('FirePhpLogger'));
 
-        // Show FirePhp table logger at finish event
-        $eventManager->attach(
-            MvcEvent::EVENT_FINISH,
-            function () use ($serviceManager) {
-                $profiler = $serviceManager->get('FirePhpLogger');
-                $profiler->showTable();
-            },
-            100
-        );
+            // Show FirePhp table logger at finish event
+            $eventManager->attach(
+                MvcEvent::EVENT_FINISH,
+                function () use ($serviceManager) {
+                    $profiler = $serviceManager->get('FirePhpLogger');
+                    $profiler->showTable();
+                },
+                100
+            );
+        } catch (\Exception $e) {
+            $logger = $serviceManager->get('logger');
+            $logger->error('Error enabling FirePHP profiler');
+            $logger->error($e);
+        }
     }
 }
