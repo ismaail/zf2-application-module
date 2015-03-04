@@ -137,6 +137,8 @@ class Adapter implements AdapterInterface
         $this->queryBuilder->setFirstResult($offset);
         $this->queryBuilder->setMaxResults($maxResult);
 
+        $this->processQueryBuilder();
+
         return $this->queryBuilder->getQuery()->getResult();
     }
 
@@ -161,8 +163,7 @@ class Adapter implements AdapterInterface
                 }
             }
 
-            // Get doctrine querybuilder
-            $this->queryBuilder = $this->queryBuilder->process($this->serviceManager);
+            $this->processQueryBuilder();
 
             $countQuery = $this->cloneQuery($this->queryBuilder->getQuery());
 
@@ -216,5 +217,12 @@ class Adapter implements AdapterInterface
         }
 
         return $cloneQuery;
+    }
+
+    private function processQueryBuilder()
+    {
+        if ($this->queryBuilder instanceof \Application\Model\QueryBuilder) {
+            $this->queryBuilder = $this->queryBuilder->process($this->serviceManager);
+        }
     }
 }
