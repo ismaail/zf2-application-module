@@ -25,6 +25,7 @@ class QueryBuilder
      */
     public function process(ServiceManager $serviceManager)
     {
+        /** @var \Doctrine\ORM\QueryBuilder $qb */
         $qb = $serviceManager->get('doctrine.entitymanager.orm_default')->createQueryBuilder();
 
         $qb->select($this->data['select'])
