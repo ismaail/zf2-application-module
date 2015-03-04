@@ -66,6 +66,14 @@ class QueryBuilder
             }
         }
 
+        if (isset($this->data['firstResult'])) {
+            $qb->setFirstResult($this->data['firstResult']);
+        }
+
+        if (isset($this->data['maxResults'])) {
+            $qb->setMaxResults($this->data['maxResults']);
+        }
+
         return $qb;
     }
 
@@ -165,6 +173,30 @@ class QueryBuilder
     public function groupBy($value)
     {
         array_push($this->data['groupBy'], $value);
+
+        return $this;
+    }
+
+    /**
+     * @param int $first
+     *
+     * @return QueryBuilder
+     */
+    public function setFirstResult($first)
+    {
+        $this->data['firstResult'] = $first;
+
+        return $this;
+    }
+
+    /**
+     * @param int $max
+     *
+     * @return QueryBuilder
+     */
+    public function setMaxResults($max)
+    {
+        $this->data['maxResults'] = $max;
 
         return $this;
     }
