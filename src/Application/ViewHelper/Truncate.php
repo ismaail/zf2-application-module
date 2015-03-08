@@ -25,7 +25,10 @@ class Truncate extends AbstractHelper
      *
      * @return string Trimmed string.
      */
-    function __invoke($text, $length = 100, $ending = '...', $exact = false, $considerHtml = true) {
+    public function __invoke($text, $length = 100, $ending = '...', $exact = false, $considerHtml = true)
+    {
+        $open_tags = array();
+
         if ($considerHtml) {
             // if the plain text is shorter than the maximum length, return the whole text
             if (strlen(preg_replace('/<.*?>/', '', $text)) <= $length) {
@@ -35,7 +38,6 @@ class Truncate extends AbstractHelper
             // splits all html-tags to scanable lines
             preg_match_all('/(<.+?>)?([^<>]*)/s', $text, $lines, PREG_SET_ORDER);
             $total_length = strlen($ending);
-            $open_tags = array();
             $truncate = '';
 
             foreach ($lines as $line_matchings) {
@@ -91,7 +93,7 @@ class Truncate extends AbstractHelper
                     $total_length += $content_length;
                 }
                 // if the maximum length is reached, get off the loop
-                if($total_length>= $length) {
+                if ($total_length>= $length) {
                     break;
                 }
             }
@@ -112,6 +114,7 @@ class Truncate extends AbstractHelper
                 $truncate = substr($truncate, 0, $spacepos);
             }
         }
+        
         // add the defined ending to the text
         $truncate .= $ending;
 
@@ -121,6 +124,7 @@ class Truncate extends AbstractHelper
                 $truncate .= '</' . $tag . '>';
             }
         }
+
         return $truncate;
     }
 }
