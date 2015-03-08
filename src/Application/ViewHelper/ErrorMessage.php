@@ -5,6 +5,10 @@ use Zend\View\Helper\AbstractHelper;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
+/**
+ * Class ErrorMessage
+ * @package Application\ViewHelper
+ */
 class ErrorMessage extends AbstractHelper implements ServiceLocatorAwareInterface
 {
     /**
@@ -22,11 +26,12 @@ class ErrorMessage extends AbstractHelper implements ServiceLocatorAwareInterfac
      *
      * @param ServiceLocatorInterface $serviceLocator
      *
-     * @return CustomHelper
+     * @return ErrorMessage
      */
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
     {
         $this->serviceLocator = $serviceLocator;
+
         return $this;
     }
     /**

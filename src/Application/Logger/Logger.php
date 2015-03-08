@@ -11,6 +11,9 @@ use FirePHP;
  */
 class Logger
 {
+    /**
+     * @var Log\Logger
+     */
     protected $logger;
 
     /**
@@ -18,6 +21,9 @@ class Logger
      */
     protected $exceptions = array();
 
+    /**
+     * @var array
+     */
     protected $priorityList = array(
         0 => 'emerg',  // Emergency: system is unusable
         1 => 'alert',  // Alert: action must be taken immediately
@@ -84,6 +90,9 @@ class Logger
         $this->logger->{$name}($args[0]);
     }
 
+    /**
+     * @return Log\Logger
+     */
     public function getLogger()
     {
         return $this->logger;

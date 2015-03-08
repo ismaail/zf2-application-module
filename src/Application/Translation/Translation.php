@@ -1,8 +1,4 @@
 <?php
-/**
- * @author  ismaail <contact@ismaail.com>
- * @license http://opensource.org/licenses/MIT The MIT License (MIT)
- */
 namespace Application\Translation;
 
 use Locale;
@@ -36,12 +32,20 @@ class Translation
      */
     protected $language;
 
+    /**
+     * @param $translator
+     * @param array $config
+     */
     public function __construct($translator, array $config)
     {
         $this->translator = $translator;
         $this->config     = $config;
     }
 
+    /**
+     * @return string
+     * @throws Exception
+     */
     public function setLocale()
     {
         if (! $this->locale) {
@@ -101,13 +105,17 @@ class Translation
         AbstractValidator::setDefaultTranslator($formTranslator);
     }
 
-    //  en_US, fr_FR
+    /**
+     * @return string
+     */
     public function getLocale()
     {
         return $this->locale;
     }
 
-    // en, fr
+    /**
+     * @return string
+     */
     public function getLanguage()
     {
         return $this->language;

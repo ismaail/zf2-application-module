@@ -11,10 +11,13 @@ use Zend\Filter\StripTags as StripTagsFilter;
 class StripTags extends AbstractHelper
 {
     /**
-     * @var StripTags
+     * @var StripTagsFilter
      */
     protected $filter;
 
+    /**
+     * @return StripTagsFilter
+     */
     protected function getFilter()
     {
         if (! $this->filter) {
@@ -24,6 +27,12 @@ class StripTags extends AbstractHelper
         return $this->filter;
     }
 
+    /**
+     * @param string $text
+     * @param array $options
+     *
+     * @return string
+     */
     public function __invoke($text, $options = array())
     {
         if (isset($options['allowTags'])) {

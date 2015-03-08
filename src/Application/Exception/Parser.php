@@ -25,6 +25,9 @@ class Parser
         return $this->exceptions;
     }
 
+    /**
+     * @param $exception
+     */
     protected function getNestedPreviousExceptions($exception)
     {
         $previous = $exception->getPrevious();
@@ -38,6 +41,9 @@ class Parser
         $this->getNestedPreviousExceptions($previous);
     }
 
+    /**
+     * @param $exception
+     */
     protected function appendExecption($exception)
     {
         $this->exceptions[] = array(

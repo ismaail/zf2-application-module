@@ -5,6 +5,10 @@ use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Cache as Cache;
 
+/**
+ * Class CacheFileSystemFactory
+ * @package Application\Cache\Factory
+ */
 class CacheFileSystemFactory implements FactoryInterface
 {
     /**

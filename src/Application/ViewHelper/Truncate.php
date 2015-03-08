@@ -114,7 +114,7 @@ class Truncate extends AbstractHelper
                 $truncate = substr($truncate, 0, $spacepos);
             }
         }
-        
+
         // add the defined ending to the text
         $truncate .= $ending;
 

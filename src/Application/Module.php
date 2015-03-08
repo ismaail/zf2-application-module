@@ -14,38 +14,40 @@ use Application\Error\Reporter as ErrorReporter;
  */
 class Module
 {
+    /**
+     * @param MvcEvent $event
+     */
     public function onBootstrap(MvcEvent $event)
     {
-        //$e->getApplication()->getServiceManager()->get('translator');
         $eventManager        = $event->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
 
-        /*
-         Change layout for Error
-         */
+        // Change layout for Error
         $eventManager->attach(MvcEvent::EVENT_DISPATCH_ERROR, [$this, 'changeErrorLayout']);
 
-        /*
-         Error reporing
-         */
+        // Error reporing
         if ('production' === APPLICATION_ENV) {
             $eventManager->attach(MvcEvent::EVENT_DISPATCH_ERROR, [$this, 'sendErrorReport']);
         }
 
-        /*
-         FirehpProfiler - Doctrine2 queries
-         */
+        // FirehpProfiler - Doctrine2 queries
         if ('development' === APPLICATION_ENV) {
             $this->enableFirePhpProfiler($event);
         }
     }
 
+    /**
+     * @return mixed
+     */
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
     }
 
+    /**
+     * @return array
+     */
     public function getAutoloaderConfig()
     {
         return array(

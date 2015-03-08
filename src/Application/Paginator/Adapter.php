@@ -49,6 +49,7 @@ class Adapter implements AdapterInterface
 
     /**
      * @param mixed $queryBuilder
+     * @param \Zend\ServiceManager\ServiceManager $serviceManager
      * @param array $options
      */
     public function __construct($queryBuilder, $serviceManager, $options = [])

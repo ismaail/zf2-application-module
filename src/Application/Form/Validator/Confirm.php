@@ -9,14 +9,26 @@ use Zend\Validator\AbstractValidator;
  */
 class Confirm extends AbstractValidator
 {
+    /**
+     * @const string
+     */
     const DIFFERENT_FROM = 'DIFFERENT_FROM';
 
+    /**
+     * @var array
+     */
     protected $messageTemplates = array(
         self::DIFFERENT_FROM => 'Value differs from original one',
     );
 
+    /**
+     * @var mixed
+     */
     private $field;
 
+    /**
+     * @param array $options
+     */
     public function __construct(array $options = array())
     {
         if (! isset($options['field'])) {
@@ -28,6 +40,12 @@ class Confirm extends AbstractValidator
         parent::__construct($options);
     }
 
+    /**
+     * @param mixed $value
+     * @param null $context
+     *
+     * @return bool
+     */
     public function isValid($value, $context = null)
     {
         if (! is_array($context) or ! isset($context[$this->field])) {

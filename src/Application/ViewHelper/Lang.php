@@ -27,6 +27,9 @@ class Lang extends AbstractHelper implements ServiceLocatorAwareInterface
      */
     protected $language;
 
+    /**
+     * @return string
+     */
     public function __invoke()
     {
         if (! $this->language) {

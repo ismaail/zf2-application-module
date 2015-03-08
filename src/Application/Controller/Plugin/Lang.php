@@ -1,8 +1,4 @@
 <?php
-/**
- * @author  ismaail <contact@ismaail.com>
- * @license http://opensource.org/licenses/MIT The MIT License (MIT)
- */
 namespace Application\Controller\Plugin;
 
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
@@ -20,6 +16,9 @@ class Lang extends AbstractPlugin
      */
     protected $language;
 
+    /**
+     * @return string
+     */
     public function __invoke()
     {
         if (! $this->language) {

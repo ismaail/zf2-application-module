@@ -3,8 +3,15 @@ namespace Application\Controller\Plugin;
 
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 
+/**
+ * Class Logger
+ * @package Application\Controller\Plugin
+ */
 class Logger extends AbstractPlugin
 {
+    /**
+     * @var null
+     */
     protected $logger = null;
 
     /**

@@ -11,6 +11,11 @@ use Application\Logger\Logger;
  */
 class LoggerFactory implements FactoryInterface
 {
+    /**
+     * @param ServiceLocatorInterface $serviceLocator
+     *
+     * @return Logger
+     */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         return new Logger();

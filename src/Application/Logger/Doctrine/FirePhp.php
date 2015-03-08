@@ -1,12 +1,37 @@
 <?php
 namespace Application\Logger\Doctrine;
 
-class FirePhp implements \Doctrine\DBAL\Logging\SQLLogger
+use Doctrine\DBAL\Logging\SQLLogger;
+
+/**
+ * Class FirePhp
+ * @package Application\Logger\Doctrine
+ */
+class FirePhp implements SQLLogger
 {
-    private $enabled      = true;
-    private $start        = 0;
-    private $end          = 0;
-    private $queries      = array();
+    /**
+     * @var bool
+     */
+    private $enabled = true;
+
+    /**
+     * @var int
+     */
+    private $start = 0;
+
+    /**
+     * @var int
+     */
+    private $end = 0;
+
+    /**
+     * @var array
+     */
+    private $queries = array();
+
+    /**
+     * @var null
+     */
     private $currentQuery = null;
 
     /**
@@ -14,6 +39,9 @@ class FirePhp implements \Doctrine\DBAL\Logging\SQLLogger
      */
     private $logger;
 
+    /**
+     * @throws \Exception
+     */
     public function __construct()
     {
         if (! class_exists('FirePHP', true)) {
