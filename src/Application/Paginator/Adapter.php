@@ -220,6 +220,9 @@ class Adapter implements AdapterInterface
         return $cloneQuery;
     }
 
+    /**
+     * Process the queryBuilder
+     */
     private function processQueryBuilder()
     {
         if ($this->queryBuilder instanceof \Application\Model\QueryBuilder) {
