@@ -82,8 +82,8 @@ class Truncate extends AbstractHelper
                         '/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i',
                         $line_matchings[2],
                         $entities,
-                        PREG_OFFSET_CAPTURE)
-                    ) {
+                        PREG_OFFSET_CAPTURE
+                    )) {
                         // calculate the real length of all entities in the legal range
                         foreach ($entities[0] as $entity) {
                             if (($entity[1] + 1 - $entities_length) <= $left) {
