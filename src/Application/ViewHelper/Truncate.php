@@ -44,17 +44,20 @@ class Truncate extends AbstractHelper
                 // if there is any html-tag in this line, handle it and add it (uncounted) to the output
                 if (! empty($line_matchings[1])) {
                     // if it's an "empty element" with or without xhtml-conform closing slash
-                    if (preg_match('/^<(\s*.+?\/\s*|\s*(img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param)(\s.+?)?)>$/is', $line_matchings[1])) {
+                    if (preg_match(
+                        '/^<(\s*.+?\/\s*|\s*(img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param)(\s.+?)?)>$/is',
+                        $line_matchings[1]
+                    )) {
                         // do nothing
                         // if tag is a closing tag
-                    } else if (preg_match('/^<\s*\/([^\s]+?)\s*>$/s', $line_matchings[1], $tag_matchings)) {
+                    } elseif (preg_match('/^<\s*\/([^\s]+?)\s*>$/s', $line_matchings[1], $tag_matchings)) {
                         // delete tag from $open_tags list
                         $pos = array_search($tag_matchings[1], $open_tags);
                         if ($pos !== false) {
                             unset($open_tags[$pos]);
                         }
                         // if tag is an opening tag
-                    } else if (preg_match('/^<\s*([^\s>!]+).*?>$/s', $line_matchings[1], $tag_matchings)) {
+                    } elseif (preg_match('/^<\s*([^\s>!]+).*?>$/s', $line_matchings[1], $tag_matchings)) {
                         // add tag to the beginning of $open_tags list
                         array_unshift($open_tags, strtolower($tag_matchings[1]));
                     }
@@ -63,7 +66,11 @@ class Truncate extends AbstractHelper
                 }
 
                 // calculate the length of the plain text part of the line; handle entities as one character
-                $content_length = strlen(preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', ' ', $line_matchings[2]));
+                $content_length = strlen(preg_replace(
+                    '/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i',
+                    ' ',
+                    $line_matchings[2]
+                ));
 
                 if ($total_length+$content_length> $length) {
                     // the number of characters which are left
@@ -71,7 +78,12 @@ class Truncate extends AbstractHelper
                     $entities_length = 0;
 
                     // search for html entities
-                    if (preg_match_all('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', $line_matchings[2], $entities, PREG_OFFSET_CAPTURE)) {
+                    if (preg_match_all(
+                        '/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i',
+                        $line_matchings[2],
+                        $entities,
+                        PREG_OFFSET_CAPTURE)
+                    ) {
                         // calculate the real length of all entities in the legal range
                         foreach ($entities[0] as $entity) {
                             if (($entity[1] + 1 - $entities_length) <= $left) {
